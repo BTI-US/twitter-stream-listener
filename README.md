@@ -51,6 +51,14 @@ Replace `<user_id>` with the numeric user ID of the Twitter account you want to 
 - **Secure Authentication**: Uses environment variables to securely manage the Bearer Token.
 - **Flexible**: Easily change the Twitter user you are monitoring by passing a different user ID as a command-line argument.
 
+## How to test the script
+
+Run the following command to use pytest to test the script:
+
+```bash
+py -m pytest py_test.py
+```
+
 ## Contributing
 
 Contributions are welcome! Please feel free to submit pull requests or create issues if you have suggestions or encounter bugs.

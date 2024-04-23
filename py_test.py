@@ -1,9 +1,5 @@
-import pytest
 from unittest.mock import Mock, patch, mock_open
 from stream_listener import fetch_tweets, get_user_id
-import datetime
-import re
-import unittest
 from freezegun import freeze_time
 
 author_name = 'LotsoFandom'
@@ -16,7 +12,7 @@ def test_get_user_id():
         mocked_client.get_user.return_value = Mock(data=Mock(id=author_id))
         user_id = get_user_id(author_name)
         assert user_id == author_id
-        mocked_client.get_user.assert_called_once_with(username='LotsoFandom')
+        mocked_client.get_user.assert_called_once_with(username=author_name)
 
 # Test for fetch_tweets function
 @freeze_time("2023-04-23 01:01:01")
@@ -48,8 +44,8 @@ def test_fetch_tweets():
 
         # Check the content written to the file
         mocked_file().write.assert_called_once_with(
-            "## Tweet by 1742141344787857408\n\n"
-            "**Tweet ID:** 1777555856705667262\n"
+            f"## Tweet by {author_id}\n\n"
+            f"**Tweet ID:** {tweet_id}\n"
             "**Created at:** 2023-01-01\n"
             "**Text:**\n\n"
             "Sample Tweet\n"
