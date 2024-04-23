@@ -18,7 +18,7 @@ client = tweepy.Client(bearer_token=bearer_token)
 
 # Function to fetch and process tweets
 def fetch_tweets(user_id, seen_tweets, num_tweets):
-    print("Fetching tweets...")
+    print(f"Fetching tweets for the user: {user_id}")
     if num_tweets > 100:
         print("Maximum number of tweets per request is 100. Setting num_tweets to 100.")
         num_tweets = 100
@@ -63,22 +63,24 @@ def fetch_tweets(user_id, seen_tweets, num_tweets):
 
 # Get user ID from username
 def get_user_id(username):
+    print(f"Getting user ID for username: {username}")
     try:
         user = client.get_user(username=username)
         return user.data.id
     except Exception as e:
         raise ValueError(f"Failed to get user ID for username {username}: {str(e)}")
 
-# Read username from command-line arguments
-if len(sys.argv) < 2:
-    raise ValueError("Please provide the Twitter username as a command-line argument.")
-username = sys.argv[1]
-user_id = get_user_id(username)
+if not os.getenv('TESTING'):
+    # Read username from command-line arguments
+    if len(sys.argv) < 2:
+        raise ValueError("Please provide the Twitter username as a command-line argument.")
+    username = sys.argv[1]
+    user_id = get_user_id(username)
 
-# Set to track seen tweets
-seen_tweets = set()
+    # Set to track seen tweets
+    seen_tweets = set()
 
-# Main loop to periodically check for tweets every minute
-while True:
-    fetch_tweets(user_id, seen_tweets, 5)
-    time.sleep(60)  # Delay for 1 minute before fetching again
+    # Main loop to periodically check for tweets every minute
+    while True:
+        fetch_tweets(user_id, seen_tweets, 5)
+        time.sleep(60)  # Delay for 1 minute before fetching again
