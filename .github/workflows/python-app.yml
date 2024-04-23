@@ -33,7 +33,7 @@ jobs:
 
     - name: Test with pytest
       run: |
-        py -m pytest py_test.py
+        pytest py_test.py
       env:
         TESTING: ${{ secrets.TESTING || 'true' }}
         BEARER_TOKEN: ${{ secrets.BEARER_TOKEN }}
